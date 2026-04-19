@@ -802,6 +802,16 @@ async def getDuckDuckGo(context, dork, semaphore):
         while await page.query_selector("#more-results"):
             if stopProgram:
                 break
+
+            # Check if there are no results
+            page_content = await page.content()
+            if "no more results found for" in page_content.lower():
+                if verbose():
+                    writerr(
+                        colored("[ DuckDuckGo ] Complete! 0 endpoints found", "green")
+                    )
+                return set(endpoints)
+
             await enable_more_results()
             if vverbose():
                 pageNo += 1

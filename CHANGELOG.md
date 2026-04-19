@@ -1,5 +1,10 @@
 ## Changelog
 
+- v4.4
+
+  - Changed
+    - BUG FIX: DuckDuckGo would time out instead of exiting early when the page shows `No more results found for`.
+
 - v4.3
 
   - Changed
