@@ -1,5 +1,10 @@
 ## Changelog
 
+- v4.5
+
+  - Changed
+    - BUG FIX: Seznam now also checks for the "nothing found" message (`Bohužel jsem nic nenašel`) while paginating through results, not just on the first page. Previously, if the message appeared on a subsequent page, the tool would continue trying to paginate instead of stopping.
+
 - v4.4
 
   - Changed

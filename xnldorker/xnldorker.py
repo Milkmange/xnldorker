@@ -2948,6 +2948,11 @@ async def getSeznam(context, dork, semaphore):
                 if stopProgram:
                     break
 
+                # Check if there is a "nothing found" message on this page
+                text = await page.text_content("body")
+                if text and "Bohužel jsem nic nenašel" in text:
+                    break
+
                 # Check if bot detection captcha is displayed
                 if "captcha" in page.url or "Ujistěte mě, že nejste robot" in page.url:
                     if args.show_browser:
@@ -2974,12 +2979,19 @@ async def getSeznam(context, dork, semaphore):
 
                 await next_page.click()
                 try:
+                    # Wait for either results or the "nothing found" message
                     await page.wait_for_selector(
-                        'a[tabindex="0"]', timeout=args.timeout * 1000
+                        'a[tabindex="0"], :text("Bohužel jsem nic nenašel")',
+                        timeout=args.timeout * 1000,
                     )
                     await asyncio.sleep(0.5)
                 except Exception:
                     pass
+
+                # Check if there is a "nothing found" message on this page
+                text = await page.text_content("body")
+                if text and "Bohužel jsem nic nenašel" in text:
+                    break
 
                 pageNo += 1
                 if vverbose():
